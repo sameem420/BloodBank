@@ -6,48 +6,54 @@
  * @flow strict-local
  */
 
+import 'react-native-gesture-handler'; 
 import React from 'react';
 import {
   StyleSheet,
-  ScrollView,
-  View,
-  StatusBar,
+  Image,
 } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import {
   LearnMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Loading from './src/screens/Loading';
+import SignUp from './src/screens/SignUp';
+import Login from './src/screens/Login';
+import Main from './src/screens/Main';
+
+const Stack = createStackNavigator();
+
+function ActionBarImage() {
+  return (
+    <Image source={require("./src/images/bd-1.png")}
+         style={{ resizeMode: "contain",  width: 28, height: 28, marginLeft: 5 }} />
+  );
+}
 
 const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <Container style={styles.body}>
-        <Header />
-        <Content>
-          <Form>
-            <Item style={styles.inputItem}>
-              <Icon active name='person-outline' />
-              <Input placeholder='Type your username'/>
-            </Item>
-            <Item style={styles.inputItem}>
-              <Icon active name='key-outline' />
-              <Input placeholder='Type your password' secureTextEntry={true} />
-            </Item>
-            <Button full rounded success style={styles.loginBtn}>
-              <Text>Login</Text>
-              <Icon active name='exit-outline' />
-            </Button>
-            <Button full rounded primary style={styles.registerBtn}>
-              <Text>Register</Text>
-              <Icon active name='person-add-outline' />
-            </Button>
-          </Form>
-        </Content>
-      </Container>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Loading" screenOptions={{
+          headerStyle: {
+            backgroundColor: '#535054',
+          },
+          headerTintColor: 'white', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+          headerLeft: () => <ActionBarImage />,
+        }}>
+        <Stack.Screen name="Loading" component={Loading} options={{ title: '' }}/>
+        <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Blood Bank - SignUp' }}/>
+        <Stack.Screen name="Login" component={Login} options={{ title: 'Blood Bank - Login' }}/>
+        <Stack.Screen name="Main" component={Main} options={{ title: 'Blood Bank - Home' }}/>
+      </Stack.Navigator>
+    </NavigationContainer>
     </>
   );
 };
