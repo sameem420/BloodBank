@@ -1,41 +1,8 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '../../node_modules/@react-navigation/native';
-import { createStackNavigator } from '../../node_modules/@react-navigation/stack';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '../../node_modules/@react-navigation/drawer';
-
-import { Alert, SafeAreaView, Image, Dimensions, ImageBackground, View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
+import { Alert, SafeAreaView, Image, Dimensions, ImageBackground, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { firebaseAuth } from '../../environment/config';
-
-const Drawer = createDrawerNavigator();
-
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
-      />
-    </View>
-  );
-}
-
-function NotificationsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
-  );
-}
-
-const MainContainer = () => {
-  return(
-  <Drawer.Navigator initialRouteName="HomeScreen">
-    <Drawer.Screen name="HomeScreen" component={HomeScreen} />
-    <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-  </Drawer.Navigator>
-  );
-}
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -56,10 +23,9 @@ render() {
   const { currentUser } = this.state
   return (
     <>
-    <MainContainer/>
     <ImageBackground source={require("../images/bgImg.jpg")} 
     style={{ resizeMode: "contain", width: Dimensions.get('screen').width, height: Dimensions.get('screen').height }}>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <Text>
           Hi {currentUser && currentUser.email}!
           </Text>
@@ -69,7 +35,20 @@ render() {
         title="Sign Out"
         />
         </View>
-      </View>
+      </View> */}
+      <Container style={styles.container}>
+        <Button full rounded success style={styles.donorBtn} onPress={() => this.props.navigation.navigate('Donor')}>
+          <Text>Be a Donor</Text>
+          <Icon active name='person-add-outline' />
+        </Button>
+        <Button full rounded style={styles.acceptorBtn} onPress={this.handleSignUp}>
+          <Text>Request for Blood</Text>
+          <Icon active name='exit-outline' />
+        </Button>
+      </Container>
+      <Container style={styles.postsContainer}>
+        <Text>Donor post to render here ...</Text>
+      </Container>  
     </ImageBackground>
   </>
   )}
@@ -77,11 +56,20 @@ render() {
 const styles = StyleSheet.create({
 container: {
  flex: 1,
- justifyContent: 'center',
+ padding: 5,
  alignItems: 'center'
 },
-signoutBtn: {
-  margin: 10,
+postsContainer: {
+  flex: 1,
+ padding: 5,
+ alignItems: 'center',
+ color: 'black',
+},
+donorBtn: {
+  margin: 5,
+},
+acceptorBtn: {
+  margin: 5,
 },
 MainContainer: {
   flex: 1,

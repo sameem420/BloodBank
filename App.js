@@ -20,12 +20,16 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+
 import Loading from './src/screens/Loading';
 import SignUp from './src/screens/SignUp';
 import Login from './src/screens/Login';
 import Main from './src/screens/Main';
+import Donor from './src/screens/Donor';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function ActionBarImage() {
   return (
@@ -34,25 +38,43 @@ function ActionBarImage() {
   );
 }
 
+function HomeStack() {
+  return (
+  <Stack.Navigator initialRouteName="Loading" screenOptions={{
+    headerStyle: {
+      backgroundColor: '#535054',
+    },
+    headerTintColor: 'white', //Set Header text color
+    headerTitleStyle: {
+      fontWeight: 'bold', //Set Header text style
+    },
+    headerLeft: () => <ActionBarImage />,
+  }}>
+  <Stack.Screen name="Loading" component={Loading} options={{ title: '' }}/>
+  <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Blood Bank - SignUp' }}/>
+  <Stack.Screen name="Login" component={Login} options={{ title: 'Blood Bank - Login' }}/>
+  <Stack.Screen name="Main" component={Main} options={{ title: 'Blood Bank - Home' }}/>
+  <Stack.Screen name="Donor" component={Donor} options={{ title: 'Blood Bank - Be a Donor' }}/>
+</Stack.Navigator>
+  );
+}
+
+function Drawerr() {
+  return (
+  <Drawer.Navigator initialRouteName="HomeStack">
+    {/* <Drawer.Screen name="Loading" component={Loading} /> */}
+    <Drawer.Screen name="Login" component={Login} />
+    <Drawer.Screen name="SignUp" component={SignUp} />
+    <Drawer.Screen name="Main" component={HomeStack} />
+  </Drawer.Navigator>
+  );
+}
+
 const App = () => {
   return (
     <>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Loading" screenOptions={{
-          headerStyle: {
-            backgroundColor: '#535054',
-          },
-          headerTintColor: 'white', //Set Header text color
-          headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
-          },
-          headerLeft: () => <ActionBarImage />,
-        }}>
-        <Stack.Screen name="Loading" component={Loading} options={{ title: '' }}/>
-        <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Blood Bank - SignUp' }}/>
-        <Stack.Screen name="Login" component={Login} options={{ title: 'Blood Bank - Login' }}/>
-        <Stack.Screen name="Main" component={Main} options={{ title: 'Blood Bank - Home' }}/>
-      </Stack.Navigator>
+      <Drawerr/>
     </NavigationContainer>
     </>
   );

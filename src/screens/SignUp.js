@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import { View, Animated, StyleSheet, ImageBackground, Image, Dimensions } from 'react-native';
 import { firebaseAuth } from '../../environment/config';

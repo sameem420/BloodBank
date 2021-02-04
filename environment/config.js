@@ -15,3 +15,4 @@ import * as firebase from 'firebase';
   const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export const firebaseAuth = firebaseApp.auth();  
+export const firebaseDB = firebase.database().ref();
