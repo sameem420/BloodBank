@@ -15,7 +15,7 @@ export default class Login extends React.Component {
         // Will change fadeAnim value to 1 in 5 seconds
         Animated.timing(this.state.fadeAnim, {
           toValue: 1,
-          duration: 5000,
+          duration: 3000,
           useNativeDriver: true
         }).start();
   }

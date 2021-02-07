@@ -1,14 +1,18 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
-import { Alert, SafeAreaView, Image, Dimensions, ImageBackground, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Container, H1, H3, Card, CardItem, Body, Button, Icon } from 'native-base';
+import { ScrollView, Image, Dimensions, ImageBackground, View,Text, StyleSheet } from 'react-native';
 import { firebaseAuth } from '../../environment/config';
+import { firebaseDB } from '../../environment/config';
+
+const postsRef = firebaseDB.child('postsInfo');
 
 export default class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { currentUser: null, errorMessage: null }
- }
+        state = { 
+          currentUser: null,
+          errorMessage: null,
+          donorsData : [] 
+        }
     onPressButton = async () => {
       await firebaseAuth.signOut()
       .then(() => this.props.navigation.navigate('Login'))
@@ -16,11 +20,39 @@ export default class Main extends React.Component {
   }
   componentDidMount() {
     const { currentUser } = firebaseAuth;
-    this.setState({ currentUser })
+    this.setState({ currentUser });
+     postsRef.on('value', snapshot => {
+      // snapshot.forEach(snap => {
+      //   let postsInfo = snap.val();
+      //   let data = [...this.state.donorsData, postsInfo];
+        this.setState({ donorsData : Object.values(snapshot.val()) });
+    });
 }
 
 render() {
   const { currentUser } = this.state
+  const { donorsData } = this.state
+  console.log(donorsData);
+  console.log("length of array ",donorsData.length);
+  const DonorsDetail = () => donorsData.map((post,index) => {
+    return (
+      <Card key={index} style={{ 
+        width: Dimensions.get('screen').width,
+        }}>
+        <CardItem header bordered>
+            <H1>Donor Number : {post.mobile_number}</H1>
+        </CardItem>
+        <CardItem bordered>
+          <Body>
+            <H3>Donor Name : {post.name}</H3>
+            <H3>Donor Address : {post.address}</H3>
+            <H3>Donor Blood-Group : {post.blood_group}</H3>
+          </Body>
+        </CardItem>
+      </Card>
+    )
+    })
+  
   return (
     <>
     <ImageBackground source={require("../images/bgImg.jpg")} 
@@ -36,19 +68,21 @@ render() {
         />
         </View>
       </View> */}
-      <Container style={styles.container}>
-        <Button full rounded success style={styles.donorBtn} onPress={() => this.props.navigation.navigate('Donor')}>
-          <Text>Be a Donor</Text>
-          <Icon active name='person-add-outline' />
-        </Button>
-        <Button full rounded style={styles.acceptorBtn} onPress={this.handleSignUp}>
-          <Text>Request for Blood</Text>
-          <Icon active name='exit-outline' />
-        </Button>
-      </Container>
-      <Container style={styles.postsContainer}>
-        <Text>Donor post to render here ...</Text>
-      </Container>  
+      <ScrollView>
+        <Container style={styles.container}>
+          <Button full rounded success style={styles.donorBtn} onPress={() => this.props.navigation.navigate('Donor')}>
+            <Text>Be a Donor</Text>
+            <Icon active name='person-add-outline' />
+          </Button>
+          <Button full rounded style={styles.acceptorBtn} onPress={this.handleSignUp}>
+            <Text>Request for Blood</Text>
+            <Icon active name='exit-outline' />
+          </Button>
+        </Container>
+        <Container style={styles.postsContainer}>
+            <DonorsDetail />
+        </Container>
+      </ScrollView>
     </ImageBackground>
   </>
   )}
@@ -61,34 +95,15 @@ container: {
 },
 postsContainer: {
   flex: 1,
- padding: 5,
- alignItems: 'center',
- color: 'black',
+  padding: 5,
+  alignItems: 'center',
 },
 donorBtn: {
   margin: 5,
+  color: 'white',
 },
 acceptorBtn: {
   margin: 5,
-},
-MainContainer: {
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 10,
-},
-
-sectionView: {
-  flex: 1,
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginTop: 12,
-},
-separatorLine: {
-  flex: 1,
-  backgroundColor: 'black',
-  height: 1.2,
-  marginLeft: 12,
-  marginRight: 24,
+  color: 'white',
 },
 })

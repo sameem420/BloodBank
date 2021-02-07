@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container, Header, Picker, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import { View, Animated, StyleSheet, ImageBackground, Image, Dimensions } from 'react-native';
-import firebaseDB from '../../environment/config';
+import { firebaseDB } from '../../environment/config';
+
+const postsRef = firebaseDB.child('postsInfo');
 
 export default class Donor extends React.Component {
     state = { 
@@ -20,9 +22,14 @@ export default class Donor extends React.Component {
         
     }
 
-    handlePost = async () => {
-    await firebaseDB.child('donorlists').push(this.state.name, this.state.mobile_number, this.state.address, this.state.selected2).then(() => this.props.navigation.navigate('Main'))
-    .catch(error => this.setState({ errorMessage: error.message }));
+    handlePost = () => {
+      postsRef.push({
+        name: this.state.name, 
+        mobile_number: this.state.mobile_number, 
+        address: this.state.address, 
+        blood_group: this.state.blood_group
+      }).then(() => this.props.navigation.navigate('Main'))
+      .catch(error => this.setState({ errorMessage: error.message }));
   }
   
   render() {
@@ -66,14 +73,14 @@ export default class Donor extends React.Component {
                 selectedValue={this.state.blood_group}
                 onValueChange={this.onbloodgroupChange.bind(this)}
               >
-                <Picker.Item label="A+" value="key0" />
-                <Picker.Item label="A-" value="key1" />
-                <Picker.Item label="B+" value="key2" />
-                <Picker.Item label="B-" value="key3" />
-                <Picker.Item label="AB+" value="key4" />
-                <Picker.Item label="AB-" value="key5" />
-                <Picker.Item label="O+" value="key6" />
-                <Picker.Item label="O-" value="key7" />
+                <Picker.Item label="A+" value="A+" />
+                <Picker.Item label="A-" value="A-" />
+                <Picker.Item label="B+" value="B+" />
+                <Picker.Item label="B-" value="B-" />
+                <Picker.Item label="AB+" value="AB+" />
+                <Picker.Item label="AB-" value="AB-" />
+                <Picker.Item label="O+" value="O+" />
+                <Picker.Item label="O-" value="O-" />
               </Picker>
             </Item>
               <Button full rounded success style={styles.postBtn} onPress={this.handlePost}>
