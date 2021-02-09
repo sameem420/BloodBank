@@ -1,7 +1,11 @@
 import React from 'react';
-import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
+import { Form, Item, Input, Text, Button } from 'native-base';
 import { View, Animated, StyleSheet, ImageBackground, Image, Dimensions } from 'react-native';
 import { firebaseAuth } from '../../environment/config';
+import EmailIcon from 'react-native-vector-icons/Entypo';
+import PasswordIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LoginIcon from 'react-native-vector-icons/AntDesign';
+import RegisterIcon from 'react-native-vector-icons/FontAwesome5';
 
 export default class SignUp extends React.Component {
     state = { 
@@ -46,22 +50,22 @@ export default class SignUp extends React.Component {
          </Text>}
            <Form>
             <Item style={styles.inputItem}>
-              <Icon active name='person-outline' />
-              <Input placeholder='Type your email' onChangeText={email => this.setState({ email })}
+              <EmailIcon name='email' size={20} color="green"/>
+              <Input placeholder='Enter your email' style={styles.inputStyles} onChangeText={email => this.setState({ email })}
           value={this.state.email}/>
             </Item> 
             <Item style={styles.inputItem}>
-              <Icon active name='key-outline' />
-              <Input placeholder='Type your password' secureTextEntry={true} onChangeText={password => this.setState({ password })}
+              <PasswordIcon name='key' size={20} color="green" />
+              <Input placeholder='Enter your password' style={styles.inputStyles} secureTextEntry={true} onChangeText={password => this.setState({ password })}
            value={this.state.password}/>
             </Item>
             <Button full rounded success style={styles.registerBtn} onPress={this.handleSignUp}>
-              <Text>SignUp</Text>
-              <Icon active name='person-add-outline' />
+              <Text>Register</Text>
+              <RegisterIcon name='users' size={20} color="white" />
             </Button>
-            <Button full rounded style={styles.loginBtn} onPress={() => this.props.navigation.navigate('Login')}>
+            <Button full rounded primary style={styles.loginBtn} onPress={() => this.props.navigation.navigate('Login')}>
               <Text>Already have an account? Login</Text>
-              <Icon active name='exit-outline' />
+              <LoginIcon name='login' size={20} color="white" />
             </Button>
           </Form>
       </View>
@@ -74,30 +78,36 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        fontFamily: "Cairo-Regular",
     },
     headingSection: {
-        borderColor: 1,
         textAlign: 'center',
         alignItems: 'center',
-        marginTop: 15,
-        marginBottom: 15
     },
     heading: {
-        color: 'white',
-        fontSize: 26,
-        marginBottom: 10
+        color: 'red',
+        fontSize: 36,
+        marginTop: 10,
+        marginBottom: 10,
+        fontFamily: "Cairo-SemiBold",
     },
     inputItem: {
         borderColor: '#FF5722',
         margin: 20,
         color: 'white',
       },
+    inputStyles: {
+      fontFamily: "Cairo-Regular",
+    },
     loginBtn: {
       margin: 20,
+      marginTop: 10,
+      padding: 15,
+      fontFamily: "Cairo-Regular",
     },
     registerBtn: {
-      marginLeft: 20,
-      marginRight: 20,
+      margin: 20,
+      fontFamily: "Cairo-Regular",
     },
 })

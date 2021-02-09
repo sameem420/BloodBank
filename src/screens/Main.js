@@ -1,9 +1,13 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import { Container, H1, H3, Card, CardItem, Body, Button, Icon } from 'native-base';
-import { ScrollView, Image, Dimensions, ImageBackground, View,Text, StyleSheet } from 'react-native';
+import { Container, Right, H2, H3, Card, CardItem, Body, Button, Icon } from 'native-base';
+import { ScrollView, Image, Dimensions, ImageBackground, SafeAreaView,Text, StyleSheet } from 'react-native';
 import { firebaseAuth } from '../../environment/config';
 import { firebaseDB } from '../../environment/config';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const postsRef = firebaseDB.child('postsInfo');
 
@@ -38,23 +42,29 @@ render() {
     return (
       <Card key={index} style={{ 
         width: Dimensions.get('screen').width,
+        fontFamily: "Cairo-Regular",
+        backgroundColor: 'gray'
         }}>
         <CardItem header bordered>
-            <H1>Donor Number : {post.mobile_number}</H1>
+            <H2 style={{fontFamily: "Cairo-Regular",padding: 5}}><FontAwesome name="phone" size={20} color="black"/> {post.mobile_number}</H2>
         </CardItem>
         <CardItem bordered>
           <Body>
-            <H3>Donor Name : {post.name}</H3>
-            <H3>Donor Address : {post.address}</H3>
-            <H3>Donor Blood-Group : {post.blood_group}</H3>
+            <H3 style={{fontFamily: "Cairo-Regular",padding: 5}}><MaterialIcons name="person-pin" size={20} color="black"/> {post.name}</H3>
+            <H3 style={{fontFamily: "Cairo-Regular",padding: 5}}><Entypo name="location-pin" size={20} color="black" /> {post.address}</H3>
           </Body>
+        </CardItem>
+        <CardItem footer bordered>
+          <Right>
+            <H3 style={{fontFamily: "Cairo-Regular", padding: 5}}><Fontisto name="blood" size={20} color="black" /> {post.blood_group}</H3>
+          </Right>
         </CardItem>
       </Card>
     )
     })
   
   return (
-    <>
+    <Container>
     <ImageBackground source={require("../images/bgImg.jpg")} 
     style={{ resizeMode: "contain", width: Dimensions.get('screen').width, height: Dimensions.get('screen').height }}>
       {/* <View style={styles.container}>
@@ -69,7 +79,7 @@ render() {
         </View>
       </View> */}
       <ScrollView>
-        <Container style={styles.container}>
+        {/* <Container style={styles.container}>
           <Button full rounded success style={styles.donorBtn} onPress={() => this.props.navigation.navigate('Donor')}>
             <Text>Be a Donor</Text>
             <Icon active name='person-add-outline' />
@@ -78,32 +88,33 @@ render() {
             <Text>Request for Blood</Text>
             <Icon active name='exit-outline' />
           </Button>
-        </Container>
+        </Container> */}
         <Container style={styles.postsContainer}>
-            <DonorsDetail />
+            <DonorsDetail/>
         </Container>
       </ScrollView>
     </ImageBackground>
-  </>
+    </Container>
   )}
 }
 const styles = StyleSheet.create({
 container: {
  flex: 1,
- padding: 5,
- alignItems: 'center'
+ fontFamily: "Cairo-Regular",
 },
 postsContainer: {
   flex: 1,
-  padding: 5,
   alignItems: 'center',
+  fontFamily: "Cairo-Regular",
 },
 donorBtn: {
   margin: 5,
   color: 'white',
+  fontFamily: "Hind-Regular",
 },
 acceptorBtn: {
   margin: 5,
   color: 'white',
+  fontFamily: "Hind-Regular",
 },
 })

@@ -101,7 +101,8 @@ export default class Donor extends React.Component {
     container: {
       marginTop: 10,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      fontFamily: 'Cairo-Regular',
     },
     headingSection: {
       borderColor: 1,
@@ -113,7 +114,8 @@ export default class Donor extends React.Component {
     heading: {
       color: 'red',
       fontSize: 26,
-      marginBottom: 10
+      marginBottom: 10,
+      fontFamily: 'Cairo-Regular',
     }, 
     inputItem: {
       borderColor: '#FF5722',
